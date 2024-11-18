@@ -1,0 +1,15 @@
+meta {
+  name: Refresh token
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{BaseUrl}}/api/auth/refresh-token
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhNTYxYWZjNC0yOGJmLTQ4YTctOWFjNC1hNDliYzBhMTA5NTQiLCJleHAiOjE3MzcxNTU2MjB9.lzEMTgwXXGGeNLQ6-aAkBu4WT9n9mKsGGiEw_6QqQsQ
+}
