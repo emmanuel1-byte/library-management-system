@@ -6,7 +6,6 @@ __pycache__/
 *.pyo
 
 # Virtual environment directories
-lib64/
 venv/
 env/
 lib/
@@ -28,3 +27,4 @@ dist/
 .ipynb_checkpoints/
 
 .env
+lib64
