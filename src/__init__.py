@@ -1,3 +1,3 @@
-from .modules.auth import User
+from .modules.users import User
 
 models = [User]

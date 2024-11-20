@@ -2,6 +2,8 @@ from sqlmodel import SQLModel, Field
 from uuid import uuid4
 from datetime import datetime, timezone
 from enum import Enum
+from typing import List
+from sqlalchemy import Column, JSON
 
 
 class Role(Enum):
@@ -17,7 +19,9 @@ class User(SQLModel, table=True):
     fullname: str
     email: str = Field(index=True, unique=True)
     password: str
-    role: Role = Field(default=Role.MEMBER)
+    roles: List[str] = Field(
+        default_factory=lambda: [Role.MEMBER.value], sa_column=Column(JSON)
+    )
     verified: bool = Field(default=False)
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), nullable=False
