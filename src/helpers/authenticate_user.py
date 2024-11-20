@@ -28,7 +28,7 @@ async def get_current_user(
         if user_id is None:
             raise HTTPException(
                 status_code=401,
-                detail="Could not validate credentials",
+                detail={"message": "Could not validate credentials"},
             )
 
     except InvalidTokenError:

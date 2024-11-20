@@ -1,7 +1,7 @@
-from .model import User
-from fastapi.encoders import jsonable_encoder
+from src import User
 from sqlmodel import Session, select
 from .schema import Signup_schema
+from ...utils.logger import logger
 import bcrypt
 
 
@@ -18,6 +18,7 @@ def create_user(data: Signup_schema, session: Session):
         return new_user
     except Exception as e:
         session.rollback()
+        logger.error(f"Error creating new user: {e}")
         raise e
 
 
@@ -32,6 +33,7 @@ def get_user_by_email(email: str, session: Session):
 
     except Exception as e:
         session.rollback()
+        logger.error(f"Error fetching user: {e}")
         raise e
 
 
@@ -45,6 +47,7 @@ def get_user_by_id(id: str, session: Session):
         return result
     except Exception as e:
         session.rollback()
+        logger.error(f"Error fetching user: {e}")
         raise e
 
 
@@ -52,7 +55,7 @@ def update_verification_status(user_id: str, session: Session):
     try:
         statement = select(User).where(User.id == user_id)
         result = session.exec(statement)
-        user = result.one()
+        user = result.first()
 
         if result is None:
             return None
@@ -64,6 +67,7 @@ def update_verification_status(user_id: str, session: Session):
         session.refresh(user)
     except Exception as e:
         session.rollback()
+        logger.error(f"Error updating verifcation status: {e}")
         raise e
 
 
@@ -71,7 +75,7 @@ def update_password(user_id: str, password: str, session: Session):
     try:
         statemnt = select(User).where(User.id == user_id)
         result = session.exec(statemnt)
-        user = result.one()
+        user = result.first()
 
         if user is None:
             return None
@@ -85,4 +89,5 @@ def update_password(user_id: str, password: str, session: Session):
 
     except Exception as e:
         session.rollback()
+        logger.error(f"Error updating password: {e}")
         raise e
