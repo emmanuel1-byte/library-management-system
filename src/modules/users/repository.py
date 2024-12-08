@@ -1,7 +1,7 @@
 from sqlmodel import Session, select
 from fastapi.encoders import jsonable_encoder
 from ...utils.logger import logger
-from .schema import User_Schema
+from .schema import User_Schema, Update_User_Schema
 from .model import User
 import bcrypt
 from sqlalchemy import func
@@ -30,8 +30,8 @@ def create(data: User_Schema, session: Session):
 
 def list(offset: int, limit: int, session: Session):
     try:
-        statement = select(User).offset((offset - 1) * limit).limit(limit)
-        result = session.exec(statement)
+        user_query = select(User).offset((offset - 1) * limit).limit(limit)
+        result = session.exec(user_query)
 
         users = result.fetchall()
         user_count = session.scalar(select(func.count()).select_from(User))
@@ -49,10 +49,10 @@ def list(offset: int, limit: int, session: Session):
         raise e
 
 
-def update(data: User_Schema, user_id: str, session: Session):
+def update(data: Update_User_Schema, user_id: str, session: Session):
     try:
-        statement = select(User).where(User.id == user_id)
-        result = session.exec(statement)
+        user_query = select(User).where(User.id == user_id)
+        result = session.exec(user_query)
         user = result.first()
 
         if user is None:
@@ -60,9 +60,7 @@ def update(data: User_Schema, user_id: str, session: Session):
 
         user.fullname = data.fullname
         user.email = data.email
-        user.password = bcrypt.hashpw(
-            data.password.encode("utf-8"), bcrypt.gensalt(rounds=12)
-        ).decode("utf-8")
+        user.roles = [role for role in data.roles]
 
         session.add(user)
         session.commit()
@@ -77,8 +75,8 @@ def update(data: User_Schema, user_id: str, session: Session):
 
 def delete(user_id: str, session: Session):
     try:
-        statement = select(User).where(User.id == user_id)
-        result = session.exec(statement)
+        user_query = select(User).where(User.id == user_id)
+        result = session.exec(user_query)
 
         user = result.first()
         if user is None:
@@ -96,8 +94,8 @@ def delete(user_id: str, session: Session):
 
 def get_user_by_email(email: str, session: Session):
     try:
-        statement = select(User).where(User.email == email)
-        result = session.exec(statement)
+        user_query = select(User).where(User.email == email)
+        result = session.exec(user_query)
 
         user = result.first()
         if user is None:

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials
-from .schema import User_Schema
+from .schema import User_Schema, Update_User_Schema
 from typing import Annotated
 from ...helpers.authorize_role import RoleChecker
 from sqlmodel import Session
@@ -49,7 +49,7 @@ def list_users(
 
 @user.put("/{user_id}", tags=["User"])
 def update_user(
-    validated_data: User_Schema,
+    validated_data: Update_User_Schema,
     user_id: str,
     session: Annotated[Session, Depends(get_session)],
     current_user_id: Annotated[HTTPAuthorizationCredentials, Depends(get_current_user)],

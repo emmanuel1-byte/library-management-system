@@ -10,7 +10,8 @@ def send_verification_email(email: str, verification_token: str):
         {
             "subject": "Signup Successfull",
             "recipients": email,
-            "body": f"{os.getenv("HOST_NAME")}/api/auth/verify-email?token={verification_token}",
+            "body": verification_token,
+            # "body": f"{os.getenv("FRONTEND_URL")}/frontend/auth/verify-email?token={verification_token}",
         }
     )
 
@@ -20,6 +21,7 @@ def send_reset_password_email(email: str, reset_password_token: str):
         {
             "subject": "Reset password",
             "recipients": email,
-            "body": f"{os.getenv("HOST_NAME")}/api/auth/reset-password/{reset_password_token}",
+            "body": reset_password_token,
+            # "body": f"{os.getenv("FRONTEND_URL")}/frontend/auth/?token{reset_password_token}",
         }
     )

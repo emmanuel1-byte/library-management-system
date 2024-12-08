@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi.responses import JSONResponse
 from src.modules.auth.route import auth
 from src.modules.users.route import user
+from src.modules.profile.route import profile
 from src.utils.database import create_table
 from src import *
 
@@ -16,6 +17,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.include_router(auth)
 app.include_router(user)
+app.include_router(profile)
 
 
 @app.get("/", tags=["Health"])

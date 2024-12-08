@@ -13,7 +13,6 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 def create_table():
     try:
         SQLModel.metadata.create_all(engine)
-        logger.info("Table created successfully")
     except Exception as e:
         logger.error(e)
         return None

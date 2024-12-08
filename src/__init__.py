@@ -1,3 +1,4 @@
 from .modules.users import User
+from .modules.profile import Profile
 
-models = [User]
+models = [User, Profile]

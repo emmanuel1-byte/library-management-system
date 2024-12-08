@@ -28,7 +28,7 @@ class RoleChecker:
             if not any(role in self.allowed_roles for role in user.roles):
                 raise HTTPException(
                     status_code=403,
-                    detail={"message": "Insufficient permissions"},
+                    detail={"message": "Unauthorized access"},
                     headers={"WWW-Authenticate": "Bearer"},
                 )
             return True

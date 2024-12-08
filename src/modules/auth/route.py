@@ -61,7 +61,7 @@ def verify_email(token: str, session: Annotated[Session, Depends(get_session)]):
 
     user = repository.get_user_by_id(user_id, session)
     if user is None:
-        return HTTPException(
+        raise HTTPException(
             status_code=404, detail={"message": "Account does not exist"}
         )
 
@@ -153,21 +153,6 @@ def forgot_password(
     return JSONResponse(
         content={"message": "Reset password email sent check your inbox"}
     )
-
-
-@auth.get("/reset-password/{token}", tags=["Authentication"])
-def verify_reset_password_token(
-    token: str, session: Annotated[Session, Depends(get_session)]
-):
-    user_id = decode_token(token)
-
-    user = repository.get_user_by_id(user_id, session)
-    if user is None:
-        raise HTTPException(
-            status_code=404, detail={"message": "Account does not exist"}
-        )
-
-    return JSONResponse(content={"message": "Token is valid"})
 
 
 @auth.patch("/reset-password", tags=["Authentication"])
