@@ -53,7 +53,7 @@ def update(data: Update_User_Schema, user_id: str, session: Session):
     try:
         user_query = select(User).where(User.id == user_id)
         result = session.exec(user_query)
-        user = result.first()
+        user = result.one_or_none()
 
         if user is None:
             return None
@@ -78,7 +78,7 @@ def delete(user_id: str, session: Session):
         user_query = select(User).where(User.id == user_id)
         result = session.exec(user_query)
 
-        user = result.first()
+        user = result.one_or_none()
         if user is None:
             return None
 
@@ -97,7 +97,7 @@ def get_user_by_email(email: str, session: Session):
         user_query = select(User).where(User.email == email)
         result = session.exec(user_query)
 
-        user = result.first()
+        user = result.one_or_none()
         if user is None:
             return None
         return user
