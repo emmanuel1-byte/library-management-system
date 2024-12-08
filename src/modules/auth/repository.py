@@ -31,7 +31,7 @@ def create_user(data: Signup_schema, session: Session):
 def get_user_by_email(email: str, session: Session):
     try:
         user_query = select(User).where(User.email == email)
-        result = session.exec(user_query).first()
+        result = session.exec(user_query).one_or_none()
 
         if result is None:
             return None
@@ -46,7 +46,7 @@ def get_user_by_email(email: str, session: Session):
 def get_user_by_id(id: str, session: Session):
     try:
         user_query = select(User).where(User.id == id)
-        result = session.exec(user_query).first()
+        result = session.exec(user_query).one_or_none()
 
         if result is None:
             return None
@@ -61,7 +61,7 @@ def update_verification_status(user_id: str, session: Session):
     try:
         user_query = select(User).where(User.id == user_id)
         result = session.exec(user_query)
-        user = result.first()
+        user = result.one_or_none()
 
         if result is None:
             return None
@@ -81,7 +81,7 @@ def update_password(user_id: str, password: str, session: Session):
     try:
         user_query = select(User).where(User.id == user_id)
         result = session.exec(user_query)
-        user = result.first()
+        user = result.one_or_none()
 
         if user is None:
             return None
