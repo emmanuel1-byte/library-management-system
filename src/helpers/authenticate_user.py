@@ -40,7 +40,7 @@ async def get_current_user(
     statement = select(User).where(User.id == user_id)
     user = session.exec(statement).first()
     if user is None:
-        return HTTPException(
+        raise HTTPException(
             status_code=403,
             detail={"message": "Account associated with this token does not exist"},
         )
