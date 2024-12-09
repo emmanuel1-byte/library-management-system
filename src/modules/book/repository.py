@@ -3,6 +3,7 @@ from sqlmodel import Session, select, func
 from .model import Book
 from fastapi.encoders import jsonable_encoder
 import math
+from sqlalchemy import cast, String
 
 
 def add_book(data: Book_Schema, session: Session):
@@ -51,21 +52,41 @@ def find_book_by_id(book_id: str, session: Session):
         raise e
 
 
-def list(offset: int, limit: int, session: Session):
+def list(offset: int, limit: int, query: str, session: Session):
     try:
-        book_query = select(Book).offset((offset - 1) * limit).limit(limit)
-        result = session.exec(book_query)
+        if query:
+            book_query = (
+                select(Book)
+                .where(
+                    (cast(Book.title, String).ilike(f"%{query}%"))
+                    | (cast(Book.author, String).ilike(f"%{query}%"))
+                    | (cast(Book.genre, String).ilike(f"%{query}%"))
+                )
+                .offset((offset - 1) * limit)
+                .limit(limit)
+            )
+            total_count_query = select(func.count()).where(
+                (cast(Book.title, String).ilike(f"%{query}%"))
+                | (cast(Book.author, String).ilike(f"%{query}%"))
+                | (cast(Book.genre, String).ilike(f"%{query}%"))
+            )
+        else:
+            book_query = select(Book).offset((offset - 1) * limit).limit(limit)
+            total_count_query = select(func.count()).select_from(Book)
 
+        result = session.exec(book_query)
         books = result.fetchall()
-        user_count = session.scalar(select(func.count()).select_from(Book))
+
+        user_count = session.scalar(total_count_query)
 
         return {
-            "user": jsonable_encoder(books, exclude=["password"]),
+            "books": jsonable_encoder(books),
             "total_count": user_count,
             "offset": offset,
             "limit": limit,
             "offset_total": math.ceil(user_count / limit),
         }
+
     except Exception as e:
         session.rollback()
         raise e
@@ -132,7 +153,7 @@ def delete_book(book_id: str, session: Session):
 
         session.delete(book)
         session.commit()
-        
+
         return True
     except Exception as e:
         session.rollback()

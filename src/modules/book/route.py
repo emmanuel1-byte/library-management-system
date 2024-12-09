@@ -46,10 +46,11 @@ def get_book_by_id(
 @book.get("/", tags=["Book"])
 def list_books(
     session: Annotated[Session, Depends(get_session)],
+    query: str = None,
     offset: int = 1,
     limit: int = 10,
 ):
-    books = repository.list(offset, limit, session)
+    books = repository.list(offset, limit, query, session)
     return JSONResponse(content={"data": books}, status_code=201)
 
 
