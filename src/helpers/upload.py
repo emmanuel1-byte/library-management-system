@@ -8,13 +8,10 @@ class FileValidator:
     DEFAULT_MAX_SIZE: int = 2 * 1024 * 1024  # 2mb
     ALLOWED_MIME_TYPES: Dict[str, Set[str]] = {
         "image": {"image/jpeg", "image/png", "image/webp"},
-        # "document": {
-        #     "application/pdf",
-        #     "application/msword",
-        #     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        #     "application/vnd.ms-excel",
-        #     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        # },
+        "document": {
+            "application/pdf",
+            "application/msword",
+        },
         # "video": {"video/mp4", "video/mpeg", "video/webm"},
     }
 

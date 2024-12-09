@@ -38,7 +38,7 @@ async def get_current_user(
         raise HTTPException(status_code=401, detail={"message": "Token has expired!"})
 
     statement = select(User).where(User.id == user_id)
-    user = session.exec(statement).first()
+    user = session.exec(statement).one_or_none()
     if user is None:
         raise HTTPException(
             status_code=403,

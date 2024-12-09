@@ -8,6 +8,8 @@ from sqlmodel import Session
 from fastapi.security.http import HTTPAuthorizationCredentials
 from ...utils.database import get_session
 from ...helpers.authenticate_user import get_current_user
+from ...helpers.authorize_role import RoleChecker
+from ...helpers.upload import UploadFile
 
 profile = APIRouter(prefix="/api/profile")
 
@@ -16,6 +18,7 @@ profile = APIRouter(prefix="/api/profile")
 def get_profile(
     session: Annotated[Session, Depends(get_session)],
     current_user_id: Annotated[HTTPAuthorizationCredentials, Depends(get_current_user)],
+    authorized: bool = Depends(RoleChecker(["Admin", "Member"])),
 ):
     profile = repository.get_profile(current_user_id, session)
     if profile is None:
@@ -31,6 +34,7 @@ def update_profile(
     validated_data: Profile_Schema,
     session: Annotated[Session, Depends(get_session)],
     current_user_id: Annotated[HTTPAuthorizationCredentials, Depends(get_current_user)],
+    authorized: bool = Depends(RoleChecker(["Admin", "Member"])),
 ):
     profile = repository.update_profile(validated_data, current_user_id, session)
     if profile is None:
@@ -41,11 +45,12 @@ def update_profile(
     return JSONResponse(content={"data": profile}, status_code=200)
 
 
-@profile.patch("/upload_profile_picture", tags=["Upload"])
+@profile.patch("/upload/profile_picture", tags=["Profile"])
 async def upload_profile_picture(
     file: UploadFile,
     session: Annotated[Session, Depends(get_session)],
     current_user_id: Annotated[HTTPAuthorizationCredentials, Depends(get_current_user)],
+    authorized: bool = Depends(RoleChecker(["Admin", "Member"])),
 ):
     if not file:
         raise HTTPException(status_code=400, detail="Attach a file")
@@ -62,11 +67,12 @@ async def upload_profile_picture(
     return JSONResponse(content={"data": profile}, status_code=200)
 
 
-@profile.patch("/upload_cover_picture", tags=["Upload"])
+@profile.patch("/upload/cover_picture", tags=["Profile"])
 async def upload_cover_picture(
     file: UploadFile,
     session: Annotated[Session, Depends(get_session)],
     current_user_id: Annotated[HTTPAuthorizationCredentials, Depends(get_current_user)],
+    authorized: bool = Depends(RoleChecker(["Admin", "Member"])),
 ):
     if not file:
         raise HTTPException(status_code=400, detail="Attach a file")
