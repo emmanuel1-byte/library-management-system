@@ -17,7 +17,7 @@ class RoleChecker:
         session: Annotated[Session, Depends(get_session)],
     ):
         try:
-            user = session.exec(select(User).where(User.id == user_id)).first()
+            user = session.exec(select(User).where(User.id == user_id)).one_or_none()
             if user is None:
                 raise HTTPException(
                     status_code=404,

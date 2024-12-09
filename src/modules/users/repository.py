@@ -76,7 +76,7 @@ def update(data: Update_User_Schema, user_id: str, session: Session):
 def delete(user_id: str, session: Session):
     try:
         user_query = select(User).where(User.id == user_id)
-        result = session.exec(user_query)
+        result = session.exec(user_query).one_or_none()
 
         user = result.one_or_none()
         if user is None:

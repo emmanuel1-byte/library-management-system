@@ -35,7 +35,7 @@ async def upload_to_cloudinary(file: UploadFile):
     except Exception as e:
         if hasattr(e, "status_code") and hasattr(e, "detail"):
             logger.error(f"Custom error: {e}")
-            raise HTTPException(status_code=e.status_code, detai={"message": e.detail})
+            raise HTTPException(status_code=e.status_code, detail={"message": e.detail})
 
         logger.error(f"Unexpected error during upload: {e}")
         raise HTTPException(
