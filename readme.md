@@ -23,11 +23,7 @@ This is a Library Management System API built as a personal project to manage a 
 
   - **Borrow Books**: Members can borrow books if copies are available.
   - **Return Books**: Members can return borrowed books, updating the availability in the library.
-  - **Transaction Management**: Track borrowing and return activities, including due dates and return dates.
-
-- **Overdue Management and Notifications**
-
-  - **Overdue Notifications**: Notify members of overdue books.
+  - **Transaction Management**: Track borrowing and return activities
 
 - **Transaction History**
   - **Admin and Member Views**: Members can view their borrowing history, while admins can view all transactions.
