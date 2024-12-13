@@ -4,6 +4,8 @@ from .model import Book
 from fastapi.encoders import jsonable_encoder
 import math
 from sqlalchemy import cast, String
+from datetime import datetime, timezone
+from ...utils.logger import logger
 
 
 def add_book(data: Book_Schema, session: Session):
@@ -17,6 +19,7 @@ def add_book(data: Book_Schema, session: Session):
         return new_book
     except Exception as e:
         session.rollback()
+        logger.error(f"Error adding book: {e}")
         raise e
 
 
@@ -32,7 +35,7 @@ def find_book_by_title(title: str, session: Session):
 
         return book
     except Exception as e:
-        session.rollback()
+        logger.error(f"Error finding book by title: {e}")
         raise e
 
 
@@ -48,7 +51,7 @@ def find_book_by_id(book_id: str, session: Session):
 
         return jsonable_encoder(book)
     except Exception as e:
-        session.rollback()
+        logger.error(f"Error finding book by ID: {e}")
         raise e
 
 
@@ -88,7 +91,7 @@ def list(offset: int, limit: int, query: str, session: Session):
         }
 
     except Exception as e:
-        session.rollback()
+        logger.error(f"Error listing book: {e}")
         raise e
 
 
@@ -109,6 +112,8 @@ def update_book(data: Book_Schema, book_id: str, session: Session):
         book.available_copies = data.available_copies
         book.total_copies = data.total_copies
 
+        book.updated_at = datetime.now(timezone.utc)
+
         session.add(book)
         session.commit()
         session.refresh(book)
@@ -116,6 +121,7 @@ def update_book(data: Book_Schema, book_id: str, session: Session):
         return jsonable_encoder(book)
     except Exception as e:
         session.rollback()
+        logger.error(f"Error updating book: {e}")
         raise e
 
 
@@ -130,6 +136,7 @@ def update_file_url(book_id: str, file_url: str, session: Session):
             return None
 
         book.file_url = file_url
+        book.updated_at = datetime.now(timezone.utc)
 
         session.add(book)
         session.commit()
@@ -138,6 +145,7 @@ def update_file_url(book_id: str, file_url: str, session: Session):
         return jsonable_encoder(book)
     except Exception as e:
         session.rollback()
+        logger.error(f"Error updating book file: {e}")
         raise e
 
 
@@ -157,4 +165,5 @@ def delete_book(book_id: str, session: Session):
         return True
     except Exception as e:
         session.rollback()
+        logger.error(f"Error deleting book: {e}")
         raise e

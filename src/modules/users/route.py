@@ -67,7 +67,7 @@ def update_user(
 
 
 @user.delete("/{user_id}", tags=["User"])
-def update_user(
+def delete_user(
     user_id: str,
     session: Annotated[Session, Depends(get_session)],
     current_user_id: Annotated[HTTPAuthorizationCredentials, Depends(get_current_user)],

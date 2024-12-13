@@ -8,7 +8,6 @@ class Book_Schema(BaseModel):
     genre: str
     isbn: str
     available_copies: int
-    total_copies: int
 
     class Config:
         form_attributes = True

@@ -15,11 +15,10 @@ class Book(SQLModel, table=True):
     isbn: str
     file_url: str = Field(nullable=True)
     available_copies: int
-    total_copies: int
-    created_at: date = Field(
+    created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), nullable=False
     )
-    updated_at: date = Field(
+    updated_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), nullable=False
     )
 

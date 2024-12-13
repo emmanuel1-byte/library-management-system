@@ -5,6 +5,7 @@ from sqlmodel import select, Session
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials
 from .authenticate_user import get_current_user
+from ..utils.logger import logger
 
 
 class RoleChecker:
@@ -33,4 +34,5 @@ class RoleChecker:
                 )
             return True
         except Exception as e:
+            logger.error(f"Role Check failed: {e}")
             raise e

@@ -7,17 +7,15 @@ class Profile(SQLModel, table=True):
 
     __tablename__ = "profiles"
 
-    id: str = Field(
-        default_factory=lambda: str(uuid4()), primary_key=True, nullable=False
-    )
+    id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, index=True)
     profile_picture: str = Field(nullable=True)
     cover_picture: str = Field(nullable=True)
     bio: str = Field(nullable=True)
-    user_id: str = Field(unique=True, foreign_key="users.id")
-    created_at: date = Field(
+    user_id: str = Field(unique=True, foreign_key="users.id", ondelete="CASCADE")
+    created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), nullable=False
     )
-    updated_at: date = Field(
+    updated_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), nullable=False
     )
 

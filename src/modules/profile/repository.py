@@ -3,6 +3,8 @@ from fastapi.encoders import jsonable_encoder
 from sqlmodel import Session, select
 from .model import Profile
 from src import User
+from datetime import datetime, timezone
+from ...utils.logger import logger
 
 
 def update_profile(data: Profile_Schema, user_id: str, session: Session):
@@ -19,6 +21,7 @@ def update_profile(data: Profile_Schema, user_id: str, session: Session):
         profile.bio = data.bio
         user.fullname = data.fullname
         user.email = data.email
+        user.updated_at = datetime.now(timezone.utc)
 
         session.add(profile)
         session.add(user)
@@ -36,7 +39,8 @@ def update_profile(data: Profile_Schema, user_id: str, session: Session):
 
     except Exception as e:
         session.rollback()
-        raise (e)
+        logger.error(f"Error updating profile: {e}")
+        raise e
 
 
 def update_profile_picture(user_id: str, file_url: str, session: Session):
@@ -51,6 +55,7 @@ def update_profile_picture(user_id: str, file_url: str, session: Session):
         profile, user = result
 
         profile.profile_picture = file_url
+        profile.updated_at = datetime.now(timezone.utc)
 
         session.add(profile)
         session.commit()
@@ -67,7 +72,8 @@ def update_profile_picture(user_id: str, file_url: str, session: Session):
 
     except Exception as e:
         session.rollback()
-        raise (e)
+        logger.error(f"Error updating profile picture: {e}")
+        raise e
 
 
 def update_cover_picture(user_id: str, file_url: str, session: Session):
@@ -82,6 +88,7 @@ def update_cover_picture(user_id: str, file_url: str, session: Session):
         profile, user = result
 
         profile.cover_picture = file_url
+        profile.updated_at = datetime.now(timezone.utc)
 
         session.add(profile)
         session.commit()
@@ -98,7 +105,8 @@ def update_cover_picture(user_id: str, file_url: str, session: Session):
 
     except Exception as e:
         session.rollback()
-        raise (e)
+        logger.error(f"Error updating cover profile picture: {e}")
+        raise e
 
 
 def get_profile(user_id: str, session: Session):
@@ -120,5 +128,5 @@ def get_profile(user_id: str, session: Session):
             ),
         }
     except Exception as e:
-        session.rollback()
+        logger.error(f"Error findng profile: {e}")
         raise e

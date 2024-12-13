@@ -6,6 +6,7 @@ from .model import User
 import bcrypt
 from sqlalchemy import func
 import math
+from datetime import datetime, timezone
 
 
 def create(data: User_Schema, session: Session):
@@ -44,7 +45,6 @@ def list(offset: int, limit: int, session: Session):
             "offset_total": math.ceil(user_count / limit),
         }
     except Exception as e:
-        session.rollback()
         logger.error(f"Error retrieving list of users: {e}")
         raise e
 
@@ -61,6 +61,7 @@ def update(data: Update_User_Schema, user_id: str, session: Session):
         user.fullname = data.fullname
         user.email = data.email
         user.roles = [role for role in data.roles]
+        user.updated_at = datetime.now(timezone.utc)
 
         session.add(user)
         session.commit()
@@ -76,7 +77,7 @@ def update(data: Update_User_Schema, user_id: str, session: Session):
 def delete(user_id: str, session: Session):
     try:
         user_query = select(User).where(User.id == user_id)
-        result = session.exec(user_query).one_or_none()
+        result = session.exec(user_query)
 
         user = result.one_or_none()
         if user is None:
@@ -103,6 +104,5 @@ def get_user_by_email(email: str, session: Session):
         return user
 
     except Exception as e:
-        session.rollback()
         logger.error(f"Error fetching user: {e}")
         raise e

@@ -36,15 +36,17 @@ This is a Library Management System API built as a personal project to manage a 
 
 - **Backend Framework**: FastAPI – for building the RESTful API with asynchronous request handling and a user-friendly auto-generated API documentation.
 - **Database ORM**: SQLModel – used to interact with the database using Python objects and ensure efficient querying and model definition.
+- **Alembic**: Database Migration tool
 - **Database**: PostgreSQL – relational database for storing user, book, and transaction data.
 - **Authentication**: JWT – for secure, token-based user authentication.
 - **File Storage**: Amazon S3 – for storing book-related media files, like cover images.
-- **Environment Management**: Docker – to ensure consistent development and deployment environments.
 
 ## Key Libraries
 
 - **FastAPI**: Core web framework for building the API.
-- **SQLModel**: ORM for managing data models and interacting with the database.
+- **SQLModel**: ORM for managing data models and interacting with the 
+database.
+- **Alembic**: Database Migration tool
 - **Boto3**: AWS SDK for handling file storage in Amazon S3.
 - **PyJWT**: JSON Web Token library for handling authentication.
 
@@ -55,7 +57,6 @@ This is a Library Management System API built as a personal project to manage a 
 - **Python 3.8+**
 - **PostgreSQL** (configurable in the environment variables)
 - **AWS S3 Bucket** with appropriate permissions
-- **Docker** (optional, for containerized setup)
 
 ### Setup Instructions
 
@@ -74,15 +75,7 @@ This is a Library Management System API built as a personal project to manage a 
 
 3. **Environment Variables**
 
-   Create a `.env` file to define environment variables for database connection, AWS credentials, and JWT secret.
-
-   ```env
-   DATABASE_URL=postgresql://username:password@localhost/library_db
-   AWS_ACCESS_KEY_ID=your_access_key
-   AWS_SECRET_ACCESS_KEY=your_secret_key
-   S3_BUCKET_NAME=your_s3_bucket
-   JWT_SECRET_KEY=your_jwt_secret
-   ```
+   Create a `.env` file to define environment variables.
 
 4. **Database Setup**
 

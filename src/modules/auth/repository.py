@@ -4,6 +4,7 @@ from sqlmodel import Session, select
 from .schema import Signup_schema
 from ...utils.logger import logger
 import bcrypt
+from datetime import datetime, timezone
 
 
 def create_user(data: Signup_schema, session: Session):
@@ -38,7 +39,6 @@ def get_user_by_email(email: str, session: Session):
         return result
 
     except Exception as e:
-        session.rollback()
         logger.error(f"Error fetching user: {e}")
         raise e
 
@@ -52,7 +52,6 @@ def get_user_by_id(id: str, session: Session):
             return None
         return result
     except Exception as e:
-        session.rollback()
         logger.error(f"Error fetching user: {e}")
         raise e
 
@@ -67,6 +66,7 @@ def update_verification_status(user_id: str, session: Session):
             return None
 
         user.verified = True
+        user.updated_at = datetime.now(timezone.utc)
 
         session.add(user)
         session.commit()
@@ -89,6 +89,8 @@ def update_password(user_id: str, password: str, session: Session):
         user.password = bcrypt.hashpw(
             password.encode("utf-8"), bcrypt.gensalt(rounds=12)
         ).decode("utf-8")
+        user.updated_at = datetime.now(timezone.utc)
+
         session.add(user)
         session.commit()
         session.refresh(user)

@@ -1,5 +1,20 @@
 include
 
+pyvenv.cfg
+
+# Virtual environment directories and contents
+venv/
+env/
+.venv/
+.env/
+venv/pyvenv.cfg
+env/pyvenv.cfg
+.venv/pyvenv.cfg
+.env/pyvenv.cfg
+
+.alembic/alembic.ini
+alembic/alembic.ini
+
 # Python bytecode files
 __pycache__/
 *.pyc
@@ -28,3 +43,4 @@ dist/
 
 .env
 lib64
+logs
