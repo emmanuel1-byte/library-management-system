@@ -40,7 +40,7 @@ def update_profile(data: Profile_Schema, user_id: str, session: Session):
     except Exception as e:
         session.rollback()
         logger.error(f"Error updating profile: {e}")
-        raise e
+        raise 
 
 
 def update_profile_picture(user_id: str, file_url: str, session: Session):
@@ -73,7 +73,7 @@ def update_profile_picture(user_id: str, file_url: str, session: Session):
     except Exception as e:
         session.rollback()
         logger.error(f"Error updating profile picture: {e}")
-        raise e
+        raise 
 
 
 def update_cover_picture(user_id: str, file_url: str, session: Session):
@@ -106,7 +106,7 @@ def update_cover_picture(user_id: str, file_url: str, session: Session):
     except Exception as e:
         session.rollback()
         logger.error(f"Error updating cover profile picture: {e}")
-        raise e
+        raise 
 
 
 def get_profile(user_id: str, session: Session):
@@ -129,4 +129,4 @@ def get_profile(user_id: str, session: Session):
         }
     except Exception as e:
         logger.error(f"Error findng profile: {e}")
-        raise e
+        raise 

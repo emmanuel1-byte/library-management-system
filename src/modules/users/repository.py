@@ -26,7 +26,7 @@ def create(data: User_Schema, session: Session):
     except Exception as e:
         session.rollback()
         logger.error(f"Error creating user: {e}")
-        raise e
+        raise 
 
 
 def list(offset: int, limit: int, session: Session):
@@ -46,7 +46,7 @@ def list(offset: int, limit: int, session: Session):
         }
     except Exception as e:
         logger.error(f"Error retrieving list of users: {e}")
-        raise e
+        raise 
 
 
 def update(data: Update_User_Schema, user_id: str, session: Session):
@@ -71,7 +71,7 @@ def update(data: Update_User_Schema, user_id: str, session: Session):
     except Exception as e:
         session.rollback()
         logger.error(f"Error updating user: {e}")
-        raise e
+        raise 
 
 
 def delete(user_id: str, session: Session):
@@ -90,7 +90,7 @@ def delete(user_id: str, session: Session):
     except Exception as e:
         session.rollback()
         logger.error(f"Error deleting user: {e}")
-        raise e
+        raise 
 
 
 def get_user_by_email(email: str, session: Session):
@@ -105,4 +105,4 @@ def get_user_by_email(email: str, session: Session):
 
     except Exception as e:
         logger.error(f"Error fetching user: {e}")
-        raise e
+        raise 

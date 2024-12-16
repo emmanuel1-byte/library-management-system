@@ -26,7 +26,7 @@ def create_user(data: Signup_schema, session: Session):
     except Exception as e:
         session.rollback()
         logger.error(f"Error creating new user: {e}")
-        raise e
+        raise 
 
 
 def get_user_by_email(email: str, session: Session):
@@ -40,7 +40,7 @@ def get_user_by_email(email: str, session: Session):
 
     except Exception as e:
         logger.error(f"Error fetching user: {e}")
-        raise e
+        raise 
 
 
 def get_user_by_id(id: str, session: Session):
@@ -53,7 +53,7 @@ def get_user_by_id(id: str, session: Session):
         return result
     except Exception as e:
         logger.error(f"Error fetching user: {e}")
-        raise e
+        raise 
 
 
 def update_verification_status(user_id: str, session: Session):
@@ -74,7 +74,7 @@ def update_verification_status(user_id: str, session: Session):
     except Exception as e:
         session.rollback()
         logger.error(f"Error updating verifcation status: {e}")
-        raise e
+        raise 
 
 
 def update_password(user_id: str, password: str, session: Session):
@@ -98,4 +98,4 @@ def update_password(user_id: str, password: str, session: Session):
     except Exception as e:
         session.rollback()
         logger.error(f"Error updating password: {e}")
-        raise e
+        raise 

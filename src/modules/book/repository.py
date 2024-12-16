@@ -20,7 +20,7 @@ def add_book(data: Book_Schema, session: Session):
     except Exception as e:
         session.rollback()
         logger.error(f"Error adding book: {e}")
-        raise e
+        raise
 
 
 def find_book_by_title(title: str, session: Session):
@@ -36,7 +36,7 @@ def find_book_by_title(title: str, session: Session):
         return book
     except Exception as e:
         logger.error(f"Error finding book by title: {e}")
-        raise e
+        raise
 
 
 def find_book_by_id(book_id: str, session: Session):
@@ -52,7 +52,7 @@ def find_book_by_id(book_id: str, session: Session):
         return jsonable_encoder(book)
     except Exception as e:
         logger.error(f"Error finding book by ID: {e}")
-        raise e
+        raise
 
 
 def list(offset: int, limit: int, query: str, session: Session):
@@ -92,7 +92,7 @@ def list(offset: int, limit: int, query: str, session: Session):
 
     except Exception as e:
         logger.error(f"Error listing book: {e}")
-        raise e
+        raise
 
 
 def update_book(data: Book_Schema, book_id: str, session: Session):
@@ -122,7 +122,7 @@ def update_book(data: Book_Schema, book_id: str, session: Session):
     except Exception as e:
         session.rollback()
         logger.error(f"Error updating book: {e}")
-        raise e
+        raise
 
 
 def update_file_url(book_id: str, file_url: str, session: Session):
@@ -146,7 +146,7 @@ def update_file_url(book_id: str, file_url: str, session: Session):
     except Exception as e:
         session.rollback()
         logger.error(f"Error updating book file: {e}")
-        raise e
+        raise
 
 
 def delete_book(book_id: str, session: Session):
@@ -166,4 +166,4 @@ def delete_book(book_id: str, session: Session):
     except Exception as e:
         session.rollback()
         logger.error(f"Error deleting book: {e}")
-        raise e
+        raise

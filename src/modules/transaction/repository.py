@@ -20,7 +20,7 @@ def find_book_by_id(book_id: str, session: Session):
         return jsonable_encoder(book)
     except Exception as e:
         logger.error(f"Error finding book: {e}")
-        raise e
+        raise
 
 
 def update_available_copies(book_id: str, increment: bool, session: Session):
@@ -45,7 +45,7 @@ def update_available_copies(book_id: str, increment: bool, session: Session):
     except Exception as e:
         session.rollback()
         logger.error(f"Error updating available copies: {e}")
-        raise e
+        raise
 
 
 def create_transaction(user_id: str, book_id: str, session: Session):
@@ -60,7 +60,7 @@ def create_transaction(user_id: str, book_id: str, session: Session):
     except Exception as e:
         session.rollback()
         logger.error(f"Error creating transaction: {e}")
-        raise e
+        raise
 
 
 def find_transaction(user_id: str, book_id: str, session: Session):
@@ -77,7 +77,7 @@ def find_transaction(user_id: str, book_id: str, session: Session):
         return transaction
     except Exception as e:
         logger.error(f"Error finding transaction: {e}")
-        raise e
+        raise
 
 
 def update_transaction_status(
@@ -100,7 +100,7 @@ def update_transaction_status(
     except Exception as e:
         session.rollback()
         logger.error(f"Error updating transaction status: {e}")
-        raise e
+        raise
 
 
 def list_my_transaction(user_id: str, offset: int, limit: int, session: Session):
@@ -127,7 +127,7 @@ def list_my_transaction(user_id: str, offset: int, limit: int, session: Session)
         }
     except Exception as e:
         logger.error(f"Error listing transaction: {e}")
-        raise e
+        raise
 
 
 def list(offset: int, limit: int, session: Session):
@@ -151,4 +151,4 @@ def list(offset: int, limit: int, session: Session):
         }
     except Exception as e:
         logger.error(f"Error listing transaction: {e}")
-        raise e
+        raise

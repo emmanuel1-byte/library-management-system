@@ -35,4 +35,4 @@ class RoleChecker:
             return True
         except Exception as e:
             logger.error(f"Role Check failed: {e}")
-            raise e
+            raise 
